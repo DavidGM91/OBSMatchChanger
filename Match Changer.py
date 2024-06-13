@@ -91,8 +91,6 @@ def update_text():
 	obs.obs_source_release(_source_TwitchA)
 	obs.obs_source_release(_source_TwitchB)
 
-	obs.script_log(obs.LOG_INFO, f"Updated sources with data from {partit_id}:{infos}")
-
 def next_partit():
 	global partit_id
 	global infos
@@ -109,7 +107,7 @@ def getData():
 
 	url = f'https://docs.google.com/spreadsheets/d/{spreadsheet_id}/gviz/tq?tqx=out:csv&sheet={sheet_name}'
 	safe_url = quote(url, safe='/:&=?')
-	# Get the data from the first sheet
+
 	data = pd.read_csv(safe_url)
 
 	infos = []
