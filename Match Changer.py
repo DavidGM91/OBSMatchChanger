@@ -91,9 +91,12 @@ def update_text():
 	obs.obs_source_release(_source_TwitchA)
 	obs.obs_source_release(_source_TwitchB)
 
-	#obs.script_log(obs.LOG_INFO, f"Partit ID: {partit_id} - len(infos): {len(infos)} - infos: {infos}")
+	obs.script_log(obs.LOG_INFO, f"Updated sources with data from {partit_id}:{infos}")
 
 def next_partit():
+	global partit_id
+	global infos
+
 	partit_id += 8
 	if partit_id >= len(infos):
 		partit_id = 0
@@ -103,7 +106,6 @@ def getData():
 	global sheet_name
 	global url
 	global infos
-	global partit_id
 
 	url = f'https://docs.google.com/spreadsheets/d/{spreadsheet_id}/gviz/tq?tqx=out:csv&sheet={sheet_name}'
 	safe_url = quote(url, safe='/:&=?')
@@ -125,8 +127,8 @@ def getData():
 
 def next_match_pressed(props, prop):
 	getData()
-	update_text()
 	next_partit()
+	update_text()
 
 def refresh_pressed(props, prop):
 	getData()
@@ -135,9 +137,9 @@ def refresh_pressed(props, prop):
 def nM_HK(pressed):
 	if pressed:
 		getData()
-		update_text()
 		next_partit()
-
+		update_text()
+		
 def r_HK(pressed):
 	if pressed:
 		getData()
@@ -159,11 +161,6 @@ def script_unload():
 
 def script_description():
 	return '''Updates a series of sources to the ones retrieved from a google spreadsheet.
-Originally meant to be used for 2p vs tournaments with support for Name, Pronoum, PB and Streaming channel.
-Supports hotkeys for refresh and next match.
-Requires a spreadsheet that anyone with the link can see with this header:
-Match PlayerA PlayerB PronA PronB PbA PbB TwitchA TwitchB
-
 Made with ♥ by Selur91'''
 
 def script_update(settings):
